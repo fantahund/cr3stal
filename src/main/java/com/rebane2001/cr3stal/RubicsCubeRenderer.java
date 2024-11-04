@@ -1,12 +1,11 @@
 package com.rebane2001.cr3stal;
 
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Quaternionf;
-
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class RubicsCubeRenderer {
 
@@ -57,8 +56,9 @@ public class RubicsCubeRenderer {
             for (int x = -1; x < 2; x++) {
                 for (int y = -1; y < 2; y++) {
                     for (int z = -1; z < 2; z++) {
-                        if (x != 0 || y != 0 || z != 0)
+                        if (x != 0 || y != 0 || z != 0) {
                             applyCubeletRotation(x, y, z, trans[0], trans[1], trans[2]);
+                        }
                     }
                 }
             }
@@ -72,8 +72,9 @@ public class RubicsCubeRenderer {
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
-                    if (x != 0 || y != 0 || z != 0)
+                    if (x != 0 || y != 0 || z != 0) {
                         drawCubeletStatic(core, matrices, vertices, light, overlay, x, y, z);
+                    }
                 }
             }
         }
@@ -82,7 +83,7 @@ public class RubicsCubeRenderer {
         int[] trans = Util.cubeSideTransforms[rotatingSide];
         matrices.push();
         matrices.translate(trans[0] * CUBELET_SCALE, trans[1] * CUBELET_SCALE, trans[2] * CUBELET_SCALE);
-        //GlStateManager.rotate((currentTime - lastTime) * 90 / ANIMATION_LENGTH, trans[0], trans[1], trans[2]);
+        // GlStateManager.rotate((currentTime - lastTime) * 90 / ANIMATION_LENGTH, trans[0], trans[1], trans[2]);
         float RotationAngle = (float) Math.toRadians(Util.easeInOutCubic(((float) (currentTime - lastTime)) / ANIMATION_LENGTH) * 90);
         float xx = (float) (trans[0] * Math.sin(RotationAngle / 2));
         float yy = (float) (trans[1] * Math.sin(RotationAngle / 2));
@@ -93,8 +94,9 @@ public class RubicsCubeRenderer {
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
-                    if (x != 0 || y != 0 || z != 0)
+                    if (x != 0 || y != 0 || z != 0) {
                         drawCubeletRotating(core, matrices, vertices, light, overlay, x, y, z);
+                    }
                 }
             }
         }
@@ -104,8 +106,9 @@ public class RubicsCubeRenderer {
     private void drawCubeletStatic(ModelPart core, MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z) {
         int cubletId = Util.cubletLookup[x + 1][y + 1][z + 1];
 
-        if (Arrays.stream(Util.cubeSides[rotatingSide]).anyMatch(r -> r == cubletId))
+        if (Arrays.stream(Util.cubeSides[rotatingSide]).anyMatch(r -> r == cubletId)) {
             return;
+        }
 
         drawCubelet(core, matrices, vertices, light, overlay, x, y, z, cubletId);
     }
@@ -113,8 +116,9 @@ public class RubicsCubeRenderer {
     private void drawCubeletRotating(ModelPart core, MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z) {
         int cubletId = Util.cubletLookup[x + 1][y + 1][z + 1];
 
-        if (Arrays.stream(Util.cubeSides[rotatingSide]).noneMatch(r -> r == cubletId))
+        if (Arrays.stream(Util.cubeSides[rotatingSide]).noneMatch(r -> r == cubletId)) {
             return;
+        }
 
         int[] trans = Util.cubeSideTransforms[rotatingSide];
         drawCubelet(core, matrices, vertices, light, overlay, x - trans[0], y - trans[1], z - trans[2], cubletId);
@@ -123,8 +127,9 @@ public class RubicsCubeRenderer {
     private void applyCubeletRotation(int x, int y, int z, int rX, int rY, int rZ) {
         int cubletId = Util.cubletLookup[x + 1][y + 1][z + 1];
 
-        if (Arrays.stream(Util.cubeSides[rotatingSide]).noneMatch(r -> r == cubletId))
+        if (Arrays.stream(Util.cubeSides[rotatingSide]).noneMatch(r -> r == cubletId)) {
             return;
+        }
 
         float RotationAngle = (float) Math.toRadians(90);
         float xx = (float) (rX * Math.sin(RotationAngle / 2));
@@ -141,8 +146,11 @@ public class RubicsCubeRenderer {
         matrices.translate(x * CUBELET_SCALE, y * CUBELET_SCALE, z * CUBELET_SCALE);
         matrices.push();
         matrices.multiply(Util.cubeletStatus[cubletId]);
-        matrices.scale(0.8f, 0.8f, 0.8f);
+        matrices.scale(1.05f, 1.05f, 1.05f);
 
+        core.yaw = 0.0f;
+        core.pitch = 0.0f;
+        core.roll = 0.0f;
         core.render(matrices, vertices, light, overlay);
 
         matrices.pop();
