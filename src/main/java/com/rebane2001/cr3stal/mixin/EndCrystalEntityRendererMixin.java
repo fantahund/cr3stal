@@ -46,6 +46,7 @@ public abstract class EndCrystalEntityRendererMixin {
         model.outerGlass.rotate(matrixStack);
         model.innerGlass.rotate(matrixStack);
         model.cube.rotate(matrixStack);
+        matrixStack.scale(1.1f, 1.1f, 1.1f);
 
         model.cube.hidden = false;
         // model.outerGlass.
