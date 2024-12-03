@@ -55,6 +55,10 @@ public abstract class EndCrystalEntityRendererMixin {
         matrixStack.pop();
     }
 
+    /**
+     * @author Brokkonaut
+     * @reason fancy render ^^
+     */
     @Overwrite
     public static float getYOffset(float f) {
         return -1.0f;

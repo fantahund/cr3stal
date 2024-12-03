@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.8-SNAPSHOT'
+	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
 	id "com.modrinth.minotaur" version "2.4.3"
 }
@@ -27,7 +27,7 @@ processResources {
 def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
-	if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+	if (targetJavaVersion >= 21 || JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
 		it.options.release = targetJavaVersion
 	}
 }
