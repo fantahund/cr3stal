@@ -7,9 +7,24 @@ issueTrackerURL="https://github.com/rebane2001/cr3stal/issues"
 modId="cr3stal"
 version="${version}"
 displayName="Cr³stal"
+logoFile="assets/cr3stal/icon.png"
 displayURL="https://github.com/rebane2001/cr3stal"
 authors="rebane2001, fantahund"
 description="A Minecraft mod that turns End Crystals into Rubik's Cubes"
+
+[[dependencies.cr3stal]]
+modId="neoforge"
+type="required"
+versionRange="[26.2,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.cr3stal]]
+modId="minecraft"
+type="required"
+versionRange="[26.2,)"
+ordering="NONE"
+side="CLIENT"
 
 [[mixins]]
 config="cr3stal.mixins.json"

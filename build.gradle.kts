@@ -6,7 +6,7 @@ plugins {
 }
 
 extra["minecraftVersion"] = "26.2"
-extra["modVersion"] = "1.0.0"
+extra["modVersion"] = "1.1.0"
 extra["fabricLoaderVersion"] = "0.19.5"
 extra["fabricApiVersion"] = "0.160.0+26.2"
 extra["neoforgeVersion"] = "26.2.0.0-beta"
