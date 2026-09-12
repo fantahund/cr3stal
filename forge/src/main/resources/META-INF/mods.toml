@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="GPL-3.0"
+issueTrackerURL="https://github.com/rebane2001/cr3stal/issues"
+
+[[mods]]
+modId="cr3stal"
+version="${version}"
+displayName="Cr³stal"
+displayURL="https://github.com/rebane2001/cr3stal"
+authors="rebane2001, fantahund"
+description="A Minecraft mod that turns End Crystals into Rubik's Cubes"

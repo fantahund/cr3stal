@@ -2,9 +2,9 @@ package com.rebane2001.cr3stal;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.model.geom.ModelPart;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.PoseStack;
 import org.joml.Quaternionf;
 
 public class RubicsCubeRenderer {
@@ -23,7 +23,7 @@ public class RubicsCubeRenderer {
 
     private long lastTime = 0;
 
-    public void render(ModelPart core, MatrixStack matrices, VertexConsumer vertices, int light, int overlay) {
+    public void render(ModelPart core, PoseStack matrices, VertexConsumer vertices, int light, int overlay) {
         long currentTime = System.currentTimeMillis();
 
         if (currentTime - ANIMATION_LENGTH > lastTime) {
@@ -81,7 +81,7 @@ public class RubicsCubeRenderer {
 
         // Draw rotating cubes
         int[] trans = Util.cubeSideTransforms[rotatingSide];
-        matrices.push();
+        matrices.pushPose();
         matrices.translate(trans[0] * CUBELET_SCALE, trans[1] * CUBELET_SCALE, trans[2] * CUBELET_SCALE);
         // GlStateManager.rotate((currentTime - lastTime) * 90 / ANIMATION_LENGTH, trans[0], trans[1], trans[2]);
         float RotationAngle = (float) Math.toRadians(Util.easeInOutCubic(((float) (currentTime - lastTime)) / ANIMATION_LENGTH) * 90);
@@ -90,7 +90,7 @@ public class RubicsCubeRenderer {
         float zz = (float) (trans[2] * Math.sin(RotationAngle / 2));
         float ww = (float) Math.cos(RotationAngle / 2);
         Quaternionf qq = new Quaternionf(xx, yy, zz, ww);
-        matrices.multiply(qq);
+        matrices.mulPose(qq);
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
@@ -100,10 +100,10 @@ public class RubicsCubeRenderer {
                 }
             }
         }
-        matrices.pop();
+        matrices.popPose();
     }
 
-    private void drawCubeletStatic(ModelPart core, MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z) {
+    private void drawCubeletStatic(ModelPart core, PoseStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z) {
         int cubletId = Util.cubletLookup[x + 1][y + 1][z + 1];
 
         if (Arrays.stream(Util.cubeSides[rotatingSide]).anyMatch(r -> r == cubletId)) {
@@ -113,7 +113,7 @@ public class RubicsCubeRenderer {
         drawCubelet(core, matrices, vertices, light, overlay, x, y, z, cubletId);
     }
 
-    private void drawCubeletRotating(ModelPart core, MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z) {
+    private void drawCubeletRotating(ModelPart core, PoseStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z) {
         int cubletId = Util.cubletLookup[x + 1][y + 1][z + 1];
 
         if (Arrays.stream(Util.cubeSides[rotatingSide]).noneMatch(r -> r == cubletId)) {
@@ -141,19 +141,19 @@ public class RubicsCubeRenderer {
         Util.cubeletStatus[cubletId] = tempQuat;
     }
 
-    private void drawCubelet(ModelPart core, MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z, int cubletId) {
-        matrices.push();
+    private void drawCubelet(ModelPart core, PoseStack matrices, VertexConsumer vertices, int light, int overlay, int x, int y, int z, int cubletId) {
+        matrices.pushPose();
         matrices.translate(x * CUBELET_SCALE, y * CUBELET_SCALE, z * CUBELET_SCALE);
-        matrices.push();
-        matrices.multiply(Util.cubeletStatus[cubletId]);
+        matrices.pushPose();
+        matrices.mulPose(Util.cubeletStatus[cubletId]);
         matrices.scale(1.05f, 1.05f, 1.05f);
 
-        core.yaw = 0.0f;
-        core.pitch = 0.0f;
-        core.roll = 0.0f;
+        core.yRot = 0.0f;
+        core.xRot = 0.0f;
+        core.zRot = 0.0f;
         core.render(matrices, vertices, light, overlay);
 
-        matrices.pop();
-        matrices.pop();
+        matrices.popPose();
+        matrices.popPose();
     }
 }
