@@ -90,7 +90,7 @@ public class RubicsCubeRenderer {
         float zz = (float) (trans[2] * Math.sin(RotationAngle / 2));
         float ww = (float) Math.cos(RotationAngle / 2);
         Quaternionf qq = new Quaternionf(xx, yy, zz, ww);
-        matrices.mulPose(qq);
+        matrices.rotate(qq);
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
@@ -145,7 +145,7 @@ public class RubicsCubeRenderer {
         matrices.pushPose();
         matrices.translate(x * CUBELET_SCALE, y * CUBELET_SCALE, z * CUBELET_SCALE);
         matrices.pushPose();
-        matrices.mulPose(Util.cubeletStatus[cubletId]);
+        matrices.rotate(Util.cubeletStatus[cubletId]);
         matrices.scale(1.05f, 1.05f, 1.05f);
 
         core.yRot = 0.0f;

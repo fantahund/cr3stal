@@ -4,7 +4,7 @@ plugins {
 
 val minecraftVersion = rootProject.extra["minecraftVersion"] as String
 val fabricLoaderVersion = rootProject.extra["fabricLoaderVersion"] as String
-val modVersion = rootProject.extra["modVersion"] as String
+val fullVersion = rootProject.extra["fullVersion"] as String
 
 base {
     archivesName.set("cr3stal-fabric")
@@ -30,10 +30,10 @@ loom {
 
 tasks.processResources {
     from(project.project(":common").sourceSets.getByName("main").resources)
-    inputs.property("version", modVersion)
+    inputs.property("version", fullVersion)
 
     filesMatching("fabric.mod.json") {
-        expand(mapOf("version" to modVersion))
+        expand(mapOf("version" to fullVersion))
     }
 }
 

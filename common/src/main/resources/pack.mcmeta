@@ -1,6 +1,7 @@
 {
   "pack": {
     "description": "Cr3stal",
-    "pack_format": 34
+    "min_format": [97, 0],
+    "max_format": [999, 0]
   }
 }

@@ -4,7 +4,7 @@ plugins {
 
 val minecraftVersion = rootProject.extra["minecraftVersion"] as String
 val forgeVersion = rootProject.extra["forgeVersion"] as String
-val modVersion = rootProject.extra["modVersion"] as String
+val fullVersion = rootProject.extra["fullVersion"] as String
 
 base {
     archivesName.set("cr3stal-forge")
@@ -56,9 +56,9 @@ tasks.processResources {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
-    inputs.property("version", modVersion)
+    inputs.property("version", fullVersion)
     filesMatching("META-INF/mods.toml") {
-        expand(mapOf("version" to modVersion))
+        expand(mapOf("version" to fullVersion))
     }
 }
 
